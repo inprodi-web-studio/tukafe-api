@@ -22,7 +22,7 @@
   },
   "devDependencies": {},
   "engines": {
-    "node": ">=14.19.1 <=18.x.x"
+    "node": "18.18.0"
   },
   "strapi": {
     "uuid": "435b67d9-8a46-4044-b645-06d8dbf370c0"
