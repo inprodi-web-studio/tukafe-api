@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "works",
+  "info": {
+    "singularName": "work",
+    "pluralName": "works",
+    "displayName": "Work",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "customer": {
+      "type": "string"
+    },
+    "product": {
+      "type": "string"
+    },
+    "modificators": {
+      "displayName": "Work Modification",
+      "type": "component",
+      "repeatable": true,
+      "component": "orders.work-modification"
+    },
+    "isDone": {
+      "type": "boolean"
+    }
+  }
+}

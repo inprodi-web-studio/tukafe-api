@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_settings_slots",
+  "info": {
+    "displayName": "Slots",
+    "icon": "cog"
+  },
+  "options": {},
+  "attributes": {
+    "startHour": {
+      "type": "time"
+    },
+    "finisHour": {
+      "type": "time"
+    }
+  }
+}

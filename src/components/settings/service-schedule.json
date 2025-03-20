@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_settings_service_schedules",
+  "info": {
+    "displayName": "Service Schedule",
+    "icon": "cog"
+  },
+  "options": {},
+  "attributes": {
+    "day": {
+      "type": "enumeration",
+      "enum": [
+        "monday",
+        "tuesday",
+        "wednesday",
+        "thursday",
+        "friday",
+        "saturday",
+        "sunday"
+      ]
+    },
+    "slots": {
+      "displayName": "Slots",
+      "type": "component",
+      "repeatable": true,
+      "component": "settings.slots"
+    }
+  }
+}

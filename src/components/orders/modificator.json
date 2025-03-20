@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_orders_modificators",
+  "info": {
+    "displayName": "Modificator",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "count": {
+      "type": "integer"
+    },
+    "modificator_id": {
+      "type": "integer"
+    }
+  }
+}

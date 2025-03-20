@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orders",
+  "info": {
+    "singularName": "order",
+    "pluralName": "orders",
+    "displayName": "Order",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "customer_id": {
+      "type": "string"
+    },
+    "products": {
+      "displayName": "Order Items",
+      "type": "component",
+      "repeatable": true,
+      "component": "orders.order-items"
+    },
+    "isUsed": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

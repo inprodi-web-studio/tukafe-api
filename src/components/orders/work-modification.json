@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_orders_work_modifications",
+  "info": {
+    "displayName": "Work Modification",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "value": {
+      "type": "string"
+    }
+  }
+}

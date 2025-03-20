@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_orders_order_items",
+  "info": {
+    "displayName": "Order Items",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "product_id": {
+      "type": "string"
+    },
+    "count": {
+      "type": "integer"
+    },
+    "modificators": {
+      "displayName": "Modificator",
+      "type": "component",
+      "repeatable": true,
+      "component": "orders.modificator"
+    },
+    "category_id": {
+      "type": "string"
+    }
+  }
+}
