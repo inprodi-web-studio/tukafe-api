@@ -6,6 +6,7 @@ const orderSchema = yup.object().shape({
     "products" : yup.array().of(yup.object().shape({
         "product_id" : yup.string().required(),
         "count" : yup.number().required(),
+        "nodiscount" : yup.string().nullable(),
         "modificators" : yup.array().of(yup.object().shape({
             "modificator_id" : yup.number().required(),
             "count" : yup.number().required(),
