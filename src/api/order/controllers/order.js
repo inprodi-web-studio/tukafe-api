@@ -21,7 +21,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
             });
         }
 
-        const parsedProducts = data.products.filter( x => x.nodiscount === 0 );
+        const parsedProducts = data.products.filter( x => x.nodiscount === "0" );
 
         const newOrder = await strapi.entityService.create('api::order.order', {
             data : {
