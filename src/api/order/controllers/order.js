@@ -14,6 +14,7 @@ module.exports = createCoreController('api::order.order', ({ strapi }) => ({
             await strapi.db.query('api::order.order').updateMany({
                 where : {
                     isUsed : false,
+                    customer_id : data.customer_id,
                 },
                 data : {
                     isUsed : true,
