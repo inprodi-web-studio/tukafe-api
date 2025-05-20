@@ -901,7 +901,6 @@ export interface PluginUsersPermissionsUser
       'plugin::users-permissions.user'
     > &
       Schema.Attribute.Private;
-    middleName: Schema.Attribute.String;
     name: Schema.Attribute.String;
     password: Schema.Attribute.Password &
       Schema.Attribute.Private &

@@ -68,9 +68,6 @@
     "name": {
       "type": "string"
     },
-    "middleName": {
-      "type": "string"
-    },
     "lastName": {
       "type": "string"
     },
