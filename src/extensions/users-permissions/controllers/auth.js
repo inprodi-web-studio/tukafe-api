@@ -72,6 +72,7 @@ module.exports = (plugin) => {
         const user = await strapi.documents(USER).create({
             data : {
                 ...data,
+                username : data.email,
                 password : data.password,
             }
         });
