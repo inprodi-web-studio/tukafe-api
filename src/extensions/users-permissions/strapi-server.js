@@ -1,12 +1,10 @@
-const userRoutes      = require("./routes/user");
-const userControllers = require("./controllers/users");
+const authRoutes      = require("./routes/auth");
+const authControllers = require("./controllers/auth");
 
 module.exports = ( plugin ) => {
-    // authRoutes(plugin);
-    // userRoutes(plugin);
+    authControllers(plugin);
 
-    // authControllers(plugin);
-    // userControllers(plugin);
-
+    authRoutes(plugin);
+    
     return plugin;
 };

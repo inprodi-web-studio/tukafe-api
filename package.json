@@ -1,5 +1,5 @@
 {
-  "name": "road-assistance-api",
+  "name": "tukafe-api",
   "version": "0.1.0",
   "private": true,
   "description": "A Strapi application",
@@ -11,9 +11,9 @@
     "strapi": "strapi"
   },
   "dependencies": {
-    "@strapi/plugin-cloud": "5.4.2",
-    "@strapi/plugin-users-permissions": "5.4.2",
-    "@strapi/strapi": "5.4.2",
+    "@strapi/plugin-cloud": "5.12.7",
+    "@strapi/plugin-users-permissions": "5.12.7",
+    "@strapi/strapi": "5.12.7",
     "mysql2": "3.9.8",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
