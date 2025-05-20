@@ -5,7 +5,7 @@ const validatePassword = require("../../../helpers/validatePassword");
 const { validateLogin, validateRegister } = require("../schemas/auth.schema");
 
 const userFields = {
-    fields : ["email", "name", "middleName", "lastName", "phone"],
+    fields : ["email", "name", "lastName", "phone"],
 };
 
 module.exports = (plugin) => {
@@ -74,11 +74,10 @@ module.exports = (plugin) => {
                 ...data,
                 username : data.email,
                 password : data.password,
-            }
+            },
+            ...userFields,
         });
 
-        return {
-            user,
-        };
+        return user;
     };
 }
