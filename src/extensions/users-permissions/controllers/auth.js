@@ -34,9 +34,33 @@ module.exports = (plugin) => {
             return ctx.throw(401, "Invalid credentials");
         }
 
+        let posterId = user.posterId;
+
+        if (user.posterId === "0") {
+            const posterRequest = await axios.get("https://joinposter.com/api/clients.getClients", {
+                params : {
+                    token : process.env.POSTER_TOKEN,
+                    phone : data.phone,
+                }
+            });
+    
+            const posterUser = posterRequest?.data?.response?.[0];
+
+            posterId = posterUser?.client_id ?? "0";
+
+            if (posterUser) {
+                await strapi.documents(USER).update({
+                    id : user.id,
+                    data : {
+                        posterId : posterUser.client_id,
+                    }
+                });
+            }
+        }
+
         const lastOrders = await strapi.documents(ORDER).findFirst({
             filters : {
-                customer_id : user.posterId,
+                customer_id : posterId,
                 isUsed : false,
             },
             sort : "createdAt:desc",
