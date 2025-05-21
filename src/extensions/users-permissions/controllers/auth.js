@@ -5,6 +5,11 @@ const generateToken = require("../../../helpers/generateToken");
 const validatePassword = require("../../../helpers/validatePassword");
 const { validateLogin, validateRegister } = require("../schemas/auth.schema");
 const qs = require("qs");
+const https = require("https");
+const poster = axios.create({
+  timeout: 10000,
+  httpsAgent: new https.Agent({ keepAlive: true, rejectUnauthorized: false }),
+});
 
 const userFields = {
     fields : ["email", "name", "lastName", "phone", "posterId"],
@@ -95,19 +100,18 @@ module.exports = (plugin) => {
                 ...userFields,
             });
 
-            await axios.post("https://joinposter.com/api/clients.updateClient?token=" + process.env.POSTER_TOKEN, qs.stringify({
+            await poster.post("https://joinposter.com/api/clients.updateClient", qs.stringify({
                 client_id : posterUser.client_id,
                 client_name : data.name + " " + data.lastName,
                 email : data.email,
             }), {
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-                },
-            }).catch( (err) => console.log(err) );
+              params: { token: process.env.POSTER_TOKEN },
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            }).catch(err => console.log(err));
     
             return user;
         } else {
-            const createdPosterUser = await axios.post("https://joinposter.com/api/clients.createClient?token=" + process.env.POSTER_TOKEN, qs.stringify({
+            const createdPosterUser = await poster.post("https://joinposter.com/api/clients.createClient", qs.stringify({
                 client_name : data.name + " " + data.lastName,
                 phone : data.phone,
                 email : data.email,
@@ -115,10 +119,9 @@ module.exports = (plugin) => {
                 "client_groups_id_client" : "1",
                 "skip_phone_validation": true
             }), {
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-                },
-            }).catch( (err) => console.log(err) );
+              params: { token: process.env.POSTER_TOKEN },
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            }).catch(err => console.log(err));
 
             const user = await strapi.documents(USER).create({
                 data : {
