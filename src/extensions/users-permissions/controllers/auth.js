@@ -1,5 +1,5 @@
 const { default: axios } = require("axios");
-const { USER } = require("../../../constants/models");
+const { USER, ORDER } = require("../../../constants/models");
 const findOneByAny = require("../../../helpers/findOneByAny");
 const generateToken = require("../../../helpers/generateToken");
 const validatePassword = require("../../../helpers/validatePassword");
@@ -34,6 +34,18 @@ module.exports = (plugin) => {
             return ctx.throw(401, "Invalid credentials");
         }
 
+        const lastOrders = await strapi.documents(ORDER).findFirst({
+            filters : {
+                customer_id : user.posterId,
+                isUsed : false,
+            },
+            sort : "createdAt:desc",
+            populate : "*",
+            pagination : {
+                limit : 1,
+            }
+        });
+
         const token = generateToken({
             id : user.id,
         });
@@ -43,6 +55,7 @@ module.exports = (plugin) => {
         return {
             token,
             user,
+            lastOrders,
         };
     };
 
@@ -129,7 +142,7 @@ module.exports = (plugin) => {
                     role : 1,
                     username : data.email,
                     password : data.password,
-                    posterId : String(createdPosterUser?.data?.response),
+                    posterId : String(createdPosterUser?.data?.response ?? 0),
                 },
                 ...userFields,
             });
