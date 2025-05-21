@@ -3,7 +3,7 @@ const { yup, validateYupSchema } = require("../../../helpers/validators");
 const loginSchema = yup.object().shape({
   phone: yup.string().length(10).required(),
   password: yup.string().required(),
-}).strict();
+}).strict().noUnknown();
 
 const registerSchema = yup
   .object()
@@ -17,7 +17,8 @@ const registerSchema = yup
       .min(8)
       .required(),
   })
-  .strict();
+  .strict()
+  .noUnknown();
 
 module.exports = {
   validateLogin: validateYupSchema(loginSchema),
