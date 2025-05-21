@@ -36,7 +36,7 @@ module.exports = (plugin) => {
 
         let posterId = user.posterId;
 
-        if (user.posterId === "0") {
+        if (!user.posterId) {
             const posterRequest = await axios.get("https://joinposter.com/api/clients.getClients", {
                 params : {
                     token : process.env.POSTER_TOKEN,
