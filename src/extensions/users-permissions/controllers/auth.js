@@ -58,7 +58,7 @@ module.exports = (plugin) => {
             }
         }
 
-        const lastOrders = await strapi.documents(ORDER).findFirst({
+        const lastOrders = await strapi.documents(ORDER).findMany({
             filters : {
                 customer_id : posterId,
             },

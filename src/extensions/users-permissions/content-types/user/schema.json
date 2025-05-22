@@ -76,6 +76,12 @@
     },
     "posterId": {
       "type": "string"
+    },
+    "cashbacks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::cashback.cashback",
+      "mappedBy": "user"
     }
   }
 }
