@@ -61,13 +61,9 @@ module.exports = (plugin) => {
         const lastOrders = await strapi.documents(ORDER).findFirst({
             filters : {
                 customer_id : posterId,
-                isUsed : false,
             },
             sort : "createdAt:desc",
             populate : "*",
-            pagination : {
-                limit : 1,
-            }
         });
 
         const token = generateToken({
