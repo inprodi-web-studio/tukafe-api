@@ -119,7 +119,11 @@ module.exports = (plugin) => {
             }
         });
 
+        console.log(posterRequest.data);
+
         const posterUser = posterRequest?.data?.response?.[0];
+
+        console.log(posterUser);
 
         if (posterUser) {
             const user = await strapi.documents(USER).create({
@@ -155,6 +159,8 @@ module.exports = (plugin) => {
               params: { token: process.env.POSTER_TOKEN },
               headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             }).catch(err => console.log(err));
+
+            console.log(createdPosterUser);
 
             const user = await strapi.documents(USER).create({
                 data : {
