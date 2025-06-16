@@ -26,6 +26,10 @@
     },
     "isDone": {
       "type": "boolean"
+    },
+    "isOnline": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

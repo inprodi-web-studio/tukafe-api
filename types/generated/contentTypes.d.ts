@@ -446,6 +446,7 @@ export interface ApiWorkWork extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     customer: Schema.Attribute.String;
     isDone: Schema.Attribute.Boolean;
+    isOnline: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::work.work'> &
       Schema.Attribute.Private;

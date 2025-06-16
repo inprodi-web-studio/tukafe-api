@@ -7,6 +7,7 @@ const workSchema = yup.array().of(yup.object().shape({
         value : yup.string().required(),
     })),
     count : yup.number().required(),
+    isOnline : yup.boolean(),
 }).noUnknown().strict()).min(1).required();
 
 module.exports = {

@@ -16,6 +16,7 @@ module.exports = createCoreController('api::work.work', ({ strapi }) => ({
                     strapi.entityService.create('api::work.work', {
                         data: {
                             ...item,
+                            isOnline: item.isOnline || false,
                             isDone : false,
                         },
                     })
