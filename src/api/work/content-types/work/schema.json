@@ -34,6 +34,9 @@
     "branch": {
       "type": "string"
     },
+    "prepareIn": {
+      "type": "datetime"
+    },
     "time": {
       "type": "string"
     }

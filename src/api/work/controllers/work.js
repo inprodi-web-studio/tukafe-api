@@ -12,10 +12,24 @@ module.exports = createCoreController('api::work.work', ({ strapi }) => ({
     
         for (const item of data) {
             for (let i = 0; i < (item.count || 1); i++) {
+                const time = item.time || "asap";
+                let date;
+
+                if (time === "asap") {
+                    date = new Date();
+                } else if (time === "15") {
+                    date = new Date();
+                    date.setMinutes(date.getMinutes() + 15);
+                } else if (time === "30") {
+                    date = new Date();
+                    date.setMinutes(date.getMinutes() + 30);
+                }
+
                 promises.push(
                     strapi.entityService.create('api::work.work', {
                         data: {
                             ...item,
+                            prepareIn : date,
                             isOnline: item.isOnline || false,
                             isDone : false,
                         },

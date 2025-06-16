@@ -452,6 +452,7 @@ export interface ApiWorkWork extends Struct.CollectionTypeSchema {
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::work.work'> &
       Schema.Attribute.Private;
     modificators: Schema.Attribute.Component<'orders.work-modification', true>;
+    prepareIn: Schema.Attribute.DateTime;
     product: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     time: Schema.Attribute.String;
