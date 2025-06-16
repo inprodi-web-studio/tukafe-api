@@ -8,7 +8,7 @@ const workSchema = yup.array().of(yup.object().shape({
     })),
     count : yup.number().required(),
     isOnline : yup.boolean(),
-    branch : yup.string(),
+    branch : yup.number(),
     time : yup.string(),
 }).noUnknown().strict()).min(1).required();
 

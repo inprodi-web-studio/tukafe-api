@@ -31,14 +31,14 @@
       "type": "boolean",
       "default": false
     },
-    "branch": {
-      "type": "string"
-    },
     "prepareIn": {
       "type": "datetime"
     },
     "time": {
       "type": "string"
+    },
+    "branch": {
+      "type": "integer"
     }
   }
 }

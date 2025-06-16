@@ -441,7 +441,7 @@ export interface ApiWorkWork extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
-    branch: Schema.Attribute.String;
+    branch: Schema.Attribute.Integer;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
