@@ -30,6 +30,12 @@
     "isOnline": {
       "type": "boolean",
       "default": false
+    },
+    "branch": {
+      "type": "string"
+    },
+    "time": {
+      "type": "string"
     }
   }
 }

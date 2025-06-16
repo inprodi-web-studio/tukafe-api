@@ -441,6 +441,7 @@ export interface ApiWorkWork extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
+    branch: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -453,6 +454,7 @@ export interface ApiWorkWork extends Struct.CollectionTypeSchema {
     modificators: Schema.Attribute.Component<'orders.work-modification', true>;
     product: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    time: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
