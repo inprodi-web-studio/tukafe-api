@@ -13,8 +13,10 @@ const orderSchema = yup.object().shape({
         }).noUnknown().strict()).nullable(),
         "category_id" : yup.string().required(),
     }).noUnknown().strict()).min(1).required(),
+    "isApp" : yup.boolean(),
+    "totalPaid" : yup.number(),
 }).noUnknown().strict();
 
 module.exports = {
-    validateCustomer : validateYupSchema(orderSchema),
+    validateOrder : validateYupSchema(orderSchema),
 };

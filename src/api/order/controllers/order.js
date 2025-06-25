@@ -1,21 +1,17 @@
 const axios = require("axios");
-const { validateCustomer } = require("../content-types/order/order.validation");
+const { validateOrder } = require("../content-types/order/order.validation");
 
 const { createCoreController } = require("@strapi/strapi").factories;
 
-const randomId = () => {
-  const posibleIds = ["34", "94", "91", "33"];
-
-  return posibleIds[Math.floor(Math.random() * posibleIds.length)];
-};
+const CASHBACK_PERCENT = 0.1;
 
 module.exports = createCoreController("api::order.order", ({ strapi }) => ({
   async create(ctx) {
     const data = ctx.request.body;
 
-    await validateCustomer(data);
+    await validateOrder(data);
 
-    const { hasFree } = data;
+    const { hasFree, isApp, totalPaid } = data;
 
     if (hasFree) {
       await strapi.db.query("api::order.order").updateMany({
@@ -27,6 +23,23 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
           isUsed: true,
         },
       });
+    }
+
+    if (isApp) {
+      const cashback = totalPaid * CASHBACK_PERCENT;
+
+      const user = await strapi.db.query("plugin::users-permissions.user").findOne({
+        where: { posterId: data.customer_id },
+      });
+
+      if (user) {
+        await strapi.entityService.create("api::cashback.cashback", {
+          data: {
+            amount: cashback,
+            user: user.id,
+          },
+        });
+      }
     }
 
     const parsedProducts = data.products.filter((x) => x.nodiscount === "0");
