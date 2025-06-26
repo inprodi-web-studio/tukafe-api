@@ -14,6 +14,6 @@ module.exports = createCoreController(CASHBACK, ({ strapi }) => ({
 
         const total = cashbacks.reduce((acc, cashback) => acc + cashback.amount, 0);
 
-        return { total };
+        return { total, cashbacks };
     },  
 }));

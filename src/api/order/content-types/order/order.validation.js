@@ -15,6 +15,7 @@ const orderSchema = yup.object().shape({
     }).noUnknown().strict()).min(1).required(),
     "isApp" : yup.boolean(),
     "totalPaid" : yup.number(),
+    "cashbackUsed" : yup.number(),
 }).noUnknown().strict();
 
 module.exports = {

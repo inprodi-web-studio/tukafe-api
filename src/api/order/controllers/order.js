@@ -11,7 +11,7 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
 
     await validateOrder(data);
 
-    const { hasFree, isApp, totalPaid } = data;
+    const { hasFree, isApp, totalPaid, cashbackUsed } = data;
 
     if (hasFree) {
       await strapi.db.query("api::order.order").updateMany({
@@ -38,6 +38,12 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
             amount: cashback,
             user: user.id,
           },
+        });
+      }
+
+      if (cashbackUsed) {
+        await strapi.entityService.create("api::cashback.cashback", {
+          data: { amount: -cashbackUsed },
         });
       }
     }
