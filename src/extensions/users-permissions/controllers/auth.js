@@ -22,11 +22,11 @@ module.exports = (plugin) => {
         await validateLogin(data);
 
         const {
-            phone,
+            email,
             password,
         } = data;
 
-        const user = await findOneByAny(phone, USER, "phone", { fields: [...userFields.fields, "password"] });
+        const user = await findOneByAny(email, USER, "email", { fields: [...userFields.fields, "password"] });
 
         await validatePassword(password, user.password);
 

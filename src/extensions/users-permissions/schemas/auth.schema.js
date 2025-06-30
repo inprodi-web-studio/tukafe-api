@@ -1,7 +1,7 @@
 const { yup, validateYupSchema } = require("../../../helpers/validators");
 
 const loginSchema = yup.object().shape({
-  phone: yup.string().length(10).required(),
+  email: yup.string().email().required(),
   password: yup.string().required(),
 }).strict().noUnknown();
 
