@@ -26,13 +26,11 @@ module.exports = createCoreController('api::favorite.favorite', ({ strapi }) => 
         });
 
         if (current) {
-            await strapi.db.query('api::favorite.favorite').delete({
-                where: {
-                    id: current.id,
-                },
+            return strapi.documents('api::favorite.favorite').delete({
+                documentId : current.documentId,
             });
         } else {
-            return strapi.db.query('api::favorite.favorite').create({
+            return strapi.documents('api::favorite.favorite').create({
                 data: {
                     user: user.id,
                     product_id: productId,
