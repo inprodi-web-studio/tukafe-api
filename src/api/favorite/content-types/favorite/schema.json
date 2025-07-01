@@ -11,13 +11,13 @@
     "draftAndPublish": false
   },
   "attributes": {
+    "product_id": {
+      "type": "string"
+    },
     "user": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "plugin::users-permissions.user"
-    },
-    "product_id": {
-      "type": "string"
+      "target": "admin::user"
     }
   }
 }
