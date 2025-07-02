@@ -11,6 +11,9 @@ const poster = axios.create({
   httpsAgent: new https.Agent({ keepAlive: true, rejectUnauthorized: false }),
 });
 
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 const userFields = {
     fields : ["email", "name", "lastName", "phone", "posterId"],
 };
@@ -119,7 +122,6 @@ module.exports = (plugin) => {
             }
         });
 
-        console.log(posterRequest.data);
 
         const posterUser = posterRequest?.data?.response?.[0];
 
@@ -175,5 +177,112 @@ module.exports = (plugin) => {
 
             return user;
         }
+    };
+
+    plugin.controllers.user["forgotPassword"] = async (ctx) => {
+        const { email } = ctx.request.body || {};
+
+        if (!email) {
+            return ctx.throw(422, "Email is required");
+        }
+
+        const user = await strapi.documents(USER).findFirst({
+            filters : {
+                email,
+            }
+        });
+
+        if (!user) {
+            return {
+                message : "success"
+            };
+        }
+
+
+        const code = Math.floor(1000 + Math.random() * 9000).toString();
+
+        await strapi.documents(USER).update({
+            id : user.id,
+            data : {
+                resetPasswordToken : code,
+            }
+        });
+
+        await resend.emails.send({
+            from: "Tukafe <no-reply@tukafe.mx>",
+            to: [email],
+            subject: "Código de Restablecimiento de Contraseña",
+            html: `
+            <p>Hola,</p>
+            <p>Tu código para restablecer la contraseña es:</p>
+            <h2>${code}</h2>
+            <p>Si no solicitaste este código, puedes ignorar este mensaje.</p>
+            `
+        });
+
+
+        return {
+            message : "success",
+        };
+    };
+
+    plugin.controllers.user["validateCode"] = async (ctx) => {
+        const { email, code } = ctx.request.body || {};
+
+        if (!email || !code) {
+            return ctx.throw(422, "Email and code are required");
+        }
+
+        const user = await strapi.documents(USER).findFirst({
+            filters : {
+                email,
+            }
+        });
+
+        if (!user) {
+            return ctx.throw(404, "User not found");
+        }
+
+        if (user.resetPasswordToken !== code) {
+            return ctx.throw(400, "Invalid code");
+        }
+
+        return {
+            message : "success",
+        };
+    };
+
+    plugin.controllers.user["resetPassword"] = async (ctx) => {
+        const { email, password } = ctx.request.body || {};
+
+        if (!email || !password) {
+            return ctx.throw(422, "Email and password are required");
+        }
+
+        const user = await strapi.documents(USER).findFirst({
+            filters : {
+                email,
+            }
+        });
+
+        if (!user) {
+            return ctx.throw(404, "User not found");
+        }
+
+        if (!user.resetPasswordToken) {
+            return ctx.throw(400, "Reset password token is not set");
+        }
+
+        await strapi.documents(USER).update({
+            id : user.id,
+            data : {
+                password,
+                resetPasswordToken : null,
+            }
+        });
+
+        return {
+            message : "success",
+        };
     };
 }

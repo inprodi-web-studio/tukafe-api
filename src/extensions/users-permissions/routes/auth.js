@@ -18,4 +18,34 @@ module.exports = ( plugin ) => {
             prefix : "",
         },
     });
+
+    plugin.routes["content-api"].routes.push({
+        method  : "POST",
+        path    : "/auth/forgot-password",
+        handler : "user.forgotPassword",
+        config  : {
+            auth : false,
+            prefix : "",
+        },
+    });
+
+    plugin.routes["content-api"].routes.push({
+        method  : "POST",
+        path    : "/auth/validate-code",
+        handler : "user.validateCode",
+        config  : {
+            auth : false,
+            prefix : "",
+        },
+    });
+
+    plugin.routes["content-api"].routes.push({
+        method  : "POST",
+        path    : "/auth/reset-password",
+        handler : "user.resetPassword",
+        config  : {
+            auth : false,
+            prefix : "",
+        },
+    });
 }
