@@ -209,7 +209,7 @@ module.exports = (plugin) => {
         });
 
         await resend.emails.send({
-            from: "Tukafe <no-reply@tukafe.mx>",
+            from: "Tukafe <no-reply@inprodi.com.mx>",
             to: [email],
             subject: "Código de Restablecimiento de Contraseña",
             html: `
