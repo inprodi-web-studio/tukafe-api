@@ -479,6 +479,7 @@ export interface ApiWorkWork extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     customer: Schema.Attribute.String;
+    customer_id: Schema.Attribute.String;
     isDone: Schema.Attribute.Boolean;
     isOnline: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;

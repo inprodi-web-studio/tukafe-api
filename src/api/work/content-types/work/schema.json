@@ -39,6 +39,9 @@
     },
     "branch": {
       "type": "integer"
+    },
+    "customer_id": {
+      "type": "string"
     }
   }
 }
