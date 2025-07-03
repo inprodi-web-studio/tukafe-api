@@ -5,6 +5,7 @@ const generateToken = require("../../../helpers/generateToken");
 const validatePassword = require("../../../helpers/validatePassword");
 const { validateLogin, validateRegister } = require("../schemas/auth.schema");
 const qs = require("qs");
+const crypto = require("crypto");
 // Firebase Admin helper
 const getFirebaseAdmin = require("../../../../config/firebase");
 const https = require("https");
@@ -218,10 +219,12 @@ module.exports = (plugin) => {
 
     const code = Math.floor(1000 + Math.random() * 9000).toString();
 
+    const hashedCode = crypto.createHash("sha512").update(code).digest("hex");
+
     await strapi.documents(USER).update({
       id: user.id,
       data: {
-        resetPasswordToken: code,
+        resetPasswordToken: hashedCode,
       },
     });
 
@@ -262,7 +265,9 @@ module.exports = (plugin) => {
 
     console.log(user);
 
-    if (user.resetPasswordToken !== code) {
+    const hashedCode = crypto.createHash("sha512").update(code).digest("hex");
+
+    if (user.resetPasswordToken !== hashedCode) {
       return ctx.throw(400, "Invalid code");
     }
 
