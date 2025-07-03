@@ -33,8 +33,6 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
-config/firebase-key.json
-
 
 ############################
 # Packages
