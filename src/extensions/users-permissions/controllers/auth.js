@@ -1,4 +1,5 @@
 const { default: axios } = require("axios");
+const bcrypt = require("bcryptjs");
 const { USER, ORDER } = require("../../../constants/models");
 const findOneByAny = require("../../../helpers/findOneByAny");
 const generateToken = require("../../../helpers/generateToken");
@@ -31,6 +32,8 @@ module.exports = (plugin) => {
     const user = await findOneByAny(email, USER, "email", {
       fields: [...userFields.fields, "password"],
     });
+
+    console.log(password, user.password);
 
     await validatePassword(password, user.password);
 
@@ -293,7 +296,7 @@ module.exports = (plugin) => {
     await strapi.documents(USER).update({
       id: user.id,
       data: {
-        password,
+        password: bcrypt.hashSync(password, 10),
         resetCode: null,
       },
     });
