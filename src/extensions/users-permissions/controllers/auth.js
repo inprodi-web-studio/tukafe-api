@@ -5,7 +5,6 @@ const generateToken = require("../../../helpers/generateToken");
 const validatePassword = require("../../../helpers/validatePassword");
 const { validateLogin, validateRegister } = require("../schemas/auth.schema");
 const qs = require("qs");
-const crypto = require("crypto");
 // Firebase Admin helper
 const getFirebaseAdmin = require("../../../../config/firebase");
 const https = require("https");
@@ -219,12 +218,10 @@ module.exports = (plugin) => {
 
     const code = Math.floor(1000 + Math.random() * 9000).toString();
 
-    const hashedCode = crypto.createHash("sha512").update(code).digest("hex");
-
     await strapi.documents(USER).update({
       id: user.id,
       data: {
-        resetPasswordToken: hashedCode,
+        resetCode: code,
       },
     });
 
@@ -256,18 +253,14 @@ module.exports = (plugin) => {
       filters: {
         email,
       },
-      fields: ["resetPasswordToken"],
+      fields: ["resetCode"],
     });
 
     if (!user) {
       return ctx.throw(404, "User not found");
     }
 
-    console.log(user);
-
-    const hashedCode = crypto.createHash("sha512").update(code).digest("hex");
-
-    if (user.resetPasswordToken !== hashedCode) {
+    if (user.resetCode !== code) {
       return ctx.throw(400, "Invalid code");
     }
 
@@ -293,7 +286,7 @@ module.exports = (plugin) => {
       return ctx.throw(404, "User not found");
     }
 
-    if (!user.resetPasswordToken) {
+    if (!user.resetCode) {
       return ctx.throw(400, "Reset password token is not set");
     }
 
@@ -301,7 +294,7 @@ module.exports = (plugin) => {
       id: user.id,
       data: {
         password,
-        resetPasswordToken: null,
+        resetCode: null,
       },
     });
 

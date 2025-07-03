@@ -82,6 +82,9 @@
       "relation": "oneToMany",
       "target": "api::cashback.cashback",
       "mappedBy": "user"
+    },
+    "resetCode": {
+      "type": "string"
     }
   }
 }
