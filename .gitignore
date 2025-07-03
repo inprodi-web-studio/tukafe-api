@@ -10,9 +10,7 @@ Icon
 .Trashes
 ._*
 
-############################
-# Firebase
-############################
+# Ignore firebase key file
 config/firebase-key.json
 
 ############################
