@@ -219,7 +219,7 @@ module.exports = (plugin) => {
     const code = Math.floor(1000 + Math.random() * 9000).toString();
 
     await strapi.documents(USER).update({
-      id: user.id,
+      documentId: user.documentId,
       data: {
         resetCode: code,
       },

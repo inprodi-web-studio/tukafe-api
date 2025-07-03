@@ -46,7 +46,7 @@ module.exports = createCoreController("api::work.work", ({ strapi }) => ({
 
   async update(ctx) {
     const { id } = ctx.params;
-    const data = ctx.request.body;
+    const { data } = ctx.request.body || {};
 
     const work = await strapi.documents("api::work.work").update({
       documentId: id,
