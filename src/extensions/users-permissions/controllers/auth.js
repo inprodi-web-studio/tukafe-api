@@ -301,11 +301,11 @@ module.exports = (plugin) => {
     try {
       const firebase = getFirebaseAdmin();
       const fbUser = await firebase.auth().getUserByEmail(email);
+
       await firebase.auth().updateUser(fbUser.uid, { password });
     } catch (err) {
       strapi.log.error(`[resetPassword] Firebase update error: ${err.message}`);
     }
-
     return {
       message: "success",
     };
