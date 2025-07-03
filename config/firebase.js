@@ -1,15 +1,17 @@
 const admin = require("firebase-admin");
-const fs = require("fs");
-const path = require("path");
 
-const androidServiceAccount = JSON.parse(
-  fs.readFileSync(path.join(__dirname, "firebase-key.json"), "utf8")
+if (!process.env.FIREBASE_KEY) {
+  throw new Error("FIREBASE_KEY no está definida en las variables de entorno.");
+}
+
+const serviceAccount = JSON.parse(
+  Buffer.from(process.env.FIREBASE_KEY, "base64").toString("utf8")
 );
 
 const getFirebaseAdmin = () => {
   if (!admin.apps.length) {
     admin.initializeApp({
-      credential: admin.credential.cert(androidServiceAccount),
+      credential: admin.credential.cert(serviceAccount),
     });
   }
 
