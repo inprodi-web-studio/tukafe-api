@@ -253,11 +253,14 @@ module.exports = (plugin) => {
       filters: {
         email,
       },
+      fields: ["resetPasswordToken"],
     });
 
     if (!user) {
       return ctx.throw(404, "User not found");
     }
+
+    console.log(user);
 
     if (user.resetPasswordToken !== code) {
       return ctx.throw(400, "Invalid code");
