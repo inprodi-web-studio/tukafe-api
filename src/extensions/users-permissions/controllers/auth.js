@@ -293,13 +293,10 @@ module.exports = (plugin) => {
       return ctx.throw(400, "Reset password token is not set");
     }
 
-    await strapi.documents(USER).update({
-      id: user.id,
-      data: {
-        password: bcrypt.hashSync(password, 10),
-        resetCode: null,
-      },
-    });
+    await strapi
+      .plugin("users-permissions")
+      .service("user")
+      .edit(user.id, { password });
 
     // Update Firebase password
     try {
