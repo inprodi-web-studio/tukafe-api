@@ -10,9 +10,6 @@ Icon
 .Trashes
 ._*
 
-# Ignore firebase key file
-config/firebase-key.json
-
 ############################
 # Linux
 ############################
