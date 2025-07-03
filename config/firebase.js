@@ -1,10 +1,17 @@
 const admin = require("firebase-admin");
-const androidServiceAccount = require("./firebase-key.json");
+const fs = require("fs");
+const path = require("path");
+
+const androidServiceAccount = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "firebase-key.json"), "utf8")
+);
 
 const getFirebaseAdmin = () => {
-  admin.initializeApp({
-    credential: admin.credential.cert(androidServiceAccount),
-  });
+  if (!admin.apps.length) {
+    admin.initializeApp({
+      credential: admin.credential.cert(androidServiceAccount),
+    });
+  }
 
   return admin;
 };
