@@ -298,6 +298,7 @@ module.exports = (plugin) => {
       },
     });
 
+    // Update Firebase password
     try {
       const firebase = getFirebaseAdmin();
       const fbUser = await firebase.auth().getUserByEmail(email);
