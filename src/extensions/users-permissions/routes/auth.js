@@ -48,4 +48,13 @@ module.exports = (plugin) => {
       prefix: "",
     },
   });
+  
+  plugin.routes["content-api"].routes.push({
+    method: "DELETE",
+    path: "/auth/delete",
+    handler: "user.deleteAccount",
+    config: {
+      prefix: "",
+    },
+  });
 };

@@ -311,4 +311,16 @@ module.exports = (plugin) => {
       message: "success",
     };
   };
+
+    plugin.controllers.user["deleteAccount"] = async (ctx) => {
+      const {user} = ctx.state;
+
+      await strapi.documents(USER).delete({
+        documentId: user.documentId,
+      });
+
+      return {
+        message: "success",
+      };
+    };
 };
