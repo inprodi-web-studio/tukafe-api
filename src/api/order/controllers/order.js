@@ -43,7 +43,7 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
 
       if (cashbackUsed) {
         await strapi.entityService.create("api::cashback.cashback", {
-          data: { amount: -cashbackUsed },
+          data: { user : user.id, amount: -cashbackUsed },
         });
       }
     }
