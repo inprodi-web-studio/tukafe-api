@@ -1,19 +1,20 @@
-const { CASHBACK } = require('../../../constants/models');
+const { CASHBACK } = require("../../../constants/models");
 
-const { createCoreController } = require('@strapi/strapi').factories;
+const { createCoreController } = require("@strapi/strapi").factories;
 
 module.exports = createCoreController(CASHBACK, ({ strapi }) => ({
-    async find(ctx) {
-        const { user } = ctx.state;
+  async find(ctx) {
+    const { user } = ctx.state;
 
-        const cashbacks = await strapi.db.query(CASHBACK).findMany({
-            where : {
-                user : user.id,
-            },
-        });
+    const cashbacks = await strapi.db.query(CASHBACK).findMany({
+      where: {
+        user: user.id,
+      },
+      sort: "createdAt:desc",
+    });
 
-        const total = cashbacks.reduce((acc, cashback) => acc + cashback.amount, 0);
+    const total = cashbacks.reduce((acc, cashback) => acc + cashback.amount, 0);
 
-        return { total, cashbacks };
-    },  
+    return { total, cashbacks };
+  },
 }));
