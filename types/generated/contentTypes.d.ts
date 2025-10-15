@@ -401,6 +401,59 @@ export interface ApiCashbackCashback extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiCouponCoupon extends Struct.CollectionTypeSchema {
+  collectionName: 'coupons';
+  info: {
+    description: '';
+    displayName: 'Coupon';
+    pluralName: 'coupons';
+    singularName: 'coupon';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    code: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    discount: Schema.Attribute.Decimal &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+    endDate: Schema.Attribute.Date;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::coupon.coupon'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    products: Schema.Attribute.JSON;
+    publishedAt: Schema.Attribute.DateTime;
+    startDate: Schema.Attribute.Date;
+    type: Schema.Attribute.Enumeration<['percent', 'amount']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'percent'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    useLimit: Schema.Attribute.Integer &
+      Schema.Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      >;
+  };
+}
+
 export interface ApiFavoriteFavorite extends Struct.CollectionTypeSchema {
   collectionName: 'favorites';
   info: {
@@ -446,6 +499,7 @@ export interface ApiOrderOrder extends Struct.CollectionTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
+    coupon: Schema.Attribute.Relation<'oneToOne', 'api::coupon.coupon'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1011,6 +1065,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::cashback.cashback': ApiCashbackCashback;
+      'api::coupon.coupon': ApiCouponCoupon;
       'api::favorite.favorite': ApiFavoriteFavorite;
       'api::order.order': ApiOrderOrder;
       'api::work.work': ApiWorkWork;

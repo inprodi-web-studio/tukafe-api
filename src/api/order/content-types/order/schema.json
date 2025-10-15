@@ -24,6 +24,11 @@
     "isUsed": {
       "type": "boolean",
       "default": false
+    },
+    "coupon": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::coupon.coupon"
     }
   }
 }
