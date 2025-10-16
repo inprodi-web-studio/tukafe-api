@@ -58,29 +58,11 @@ module.exports = createCoreController("api::coupon.coupon", ({ strapi }) => ({
       });
     }
 
-    if (coupon.products && coupon.products.length > 0) {
-      const productsWithDiscount = [];
-
-      for (const product of coupon.products) {
-        if (data.products.includes(product)) {
-          productsWithDiscount.push(product);
-        }
-      }
-
-      return {
-        id: coupon.id,
-        type: coupon.type,
-        discount: coupon.discount,
-        products: productsWithDiscount,
-        code: coupon.code,
-      };
-    }
-
     return {
       id: coupon.id,
       type: coupon.type,
       discount: coupon.discount,
-      products: [],
+      products: coupon.products,
       code: coupon.code,
     };
   },
