@@ -67,12 +67,6 @@ module.exports = createCoreController("api::coupon.coupon", ({ strapi }) => ({
         }
       }
 
-      if (productsWithDiscount.length === 0) {
-        return ctx.throw(400, "Coupon products not found", {
-          details: "coupon.productsNotFound",
-        });
-      }
-
       return {
         id: coupon.id,
         type: coupon.type,
