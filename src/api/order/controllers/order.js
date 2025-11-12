@@ -28,9 +28,11 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
     if (isApp) {
       const cashback = totalPaid * CASHBACK_PERCENT;
 
-      const user = await strapi.db.query("plugin::users-permissions.user").findOne({
-        where: { posterId: data.customer_id },
-      });
+      const user = await strapi.db
+        .query("plugin::users-permissions.user")
+        .findOne({
+          where: { posterId: data.customer_id },
+        });
 
       if (user) {
         await strapi.entityService.create("api::cashback.cashback", {
@@ -43,12 +45,16 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
 
       if (cashbackUsed) {
         await strapi.entityService.create("api::cashback.cashback", {
-          data: { user : user.id, amount: -cashbackUsed },
+          data: { user: user.id, amount: -cashbackUsed },
         });
       }
     }
 
     const parsedProducts = data.products.filter((x) => x.nodiscount === "0");
+
+    if (parsedProducts.length === 0) {
+      return { success: true, message: "No products to order" };
+    }
 
     const newOrder = await strapi.entityService.create("api::order.order", {
       data: {
