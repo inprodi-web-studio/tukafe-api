@@ -10,9 +10,6 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
     try {
       const data = ctx.request.body;
 
-      console.log("[ Order Debug]");
-      console.log(data);
-
       await validateOrder(data);
 
       const { hasFree, isApp, totalPaid, cashbackUsed } = data;
@@ -64,6 +61,7 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
 
       console.log({
         ...data,
+        coupon : data.coupon === "0" ? null : data.coupon,
         products: parsedProducts,
         isUsed: hasFree,
       });
@@ -71,6 +69,7 @@ module.exports = createCoreController("api::order.order", ({ strapi }) => ({
       const newOrder = await strapi.entityService.create("api::order.order", {
         data: {
           ...data,
+          coupon : data.coupon === "0" ? null : data.coupon,
           products: parsedProducts,
           isUsed: hasFree,
         },
