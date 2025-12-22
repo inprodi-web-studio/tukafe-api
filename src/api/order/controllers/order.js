@@ -7,63 +7,78 @@ const CASHBACK_PERCENT = 0.1;
 
 module.exports = createCoreController("api::order.order", ({ strapi }) => ({
   async create(ctx) {
-    const data = ctx.request.body;
+    try {
+      const data = ctx.request.body;
 
-    await validateOrder(data);
+      console.log("[ Order Debug]");
+      console.log(data);
 
-    const { hasFree, isApp, totalPaid, cashbackUsed } = data;
+      await validateOrder(data);
 
-    if (hasFree) {
-      await strapi.db.query("api::order.order").updateMany({
-        where: {
-          isUsed: false,
-          customer_id: data.customer_id,
-        },
-        data: {
-          isUsed: true,
-        },
-      });
-    }
+      const { hasFree, isApp, totalPaid, cashbackUsed } = data;
 
-    if (isApp) {
-      const cashback = totalPaid * CASHBACK_PERCENT;
-
-      const user = await strapi.db
-        .query("plugin::users-permissions.user")
-        .findOne({
-          where: { posterId: data.customer_id },
-        });
-
-      if (user) {
-        await strapi.entityService.create("api::cashback.cashback", {
+      if (hasFree) {
+        await strapi.db.query("api::order.order").updateMany({
+          where: {
+            isUsed: false,
+            customer_id: data.customer_id,
+          },
           data: {
-            amount: cashback,
-            user: user.id,
+            isUsed: true,
           },
         });
       }
 
-      if (cashbackUsed) {
-        await strapi.entityService.create("api::cashback.cashback", {
-          data: { user: user.id, amount: -cashbackUsed },
-        });
+      if (isApp) {
+        const cashback = totalPaid * CASHBACK_PERCENT;
+
+        const user = await strapi.db
+          .query("plugin::users-permissions.user")
+          .findOne({
+            where: { posterId: data.customer_id },
+          });
+
+        if (user) {
+          await strapi.entityService.create("api::cashback.cashback", {
+            data: {
+              amount: cashback,
+              user: user.id,
+            },
+          });
+        }
+
+        if (cashbackUsed) {
+          await strapi.entityService.create("api::cashback.cashback", {
+            data: { user: user.id, amount: -cashbackUsed },
+          });
+        }
       }
-    }
 
-    const parsedProducts = data.products.filter((x) => x.nodiscount === "0");
+      const parsedProducts = data.products.filter((x) => x.nodiscount === "0");
 
-    if (parsedProducts.length === 0) {
-      return { success: true, message: "No products to order" };
-    }
+      if (parsedProducts.length === 0) {
+        return { success: true, message: "No products to order" };
+      }
 
-    const newOrder = await strapi.entityService.create("api::order.order", {
-      data: {
+      console.log("[Order Debug]: data for strapi");
+
+      console.log({
         ...data,
         products: parsedProducts,
         isUsed: hasFree,
-      },
-    });
+      });
 
-    return newOrder;
+      const newOrder = await strapi.entityService.create("api::order.order", {
+        data: {
+          ...data,
+          products: parsedProducts,
+          isUsed: hasFree,
+        },
+      });
+
+      return newOrder;
+    } catch(error) {
+      console.log(error);
+    }
   },
 }));
